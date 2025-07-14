@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Apartments\" />
+    <None Remove="Abstractions\" />
+    <None Remove="Users\" />
+    <None Remove="Users\Events\" />
+    <None Remove="Bookings\" />
+    <None Remove="Shared\" />
+    <None Remove="Bookings\Events\" />
+    <None Remove="Reviews\" />
+    <None Remove="Reviews\Events\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Apartments\" />
+    <Folder Include="Abstractions\" />
+    <Folder Include="Users\" />
+    <Folder Include="Users\Events\" />
+    <Folder Include="Bookings\" />
+    <Folder Include="Shared\" />
+    <Folder Include="Bookings\Events\" />
+    <Folder Include="Reviews\" />
+    <Folder Include="Reviews\Events\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="13.0.0" />
+  </ItemGroup>
+</Project>

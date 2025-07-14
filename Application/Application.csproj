@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="13.0.0" />
+    <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="FluentValidation" Version="12.0.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Abstractions\" />
+    <None Remove="Abstractions\Messaging\" />
+    <None Remove="Bookings\" />
+    <None Remove="Bookings\ReserveBooking\" />
+    <None Remove="Abstractions\Clock\" />
+    <None Remove="Abstractions\Email\" />
+    <None Remove="Bookings\GetBooking\" />
+    <None Remove="Abstractions\Data\" />
+    <None Remove="Apartments\" />
+    <None Remove="Apartments\SearchApartments\" />
+    <None Remove="Abstractions\Behaviours\" />
+    <None Remove="Exceptions\" />
+    <None Remove="Bookings\CancelBooking\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Abstractions\" />
+    <Folder Include="Abstractions\Messaging\" />
+    <Folder Include="Bookings\" />
+    <Folder Include="Bookings\ReserveBooking\" />
+    <Folder Include="Abstractions\Clock\" />
+    <Folder Include="Abstractions\Email\" />
+    <Folder Include="Bookings\GetBooking\" />
+    <Folder Include="Abstractions\Data\" />
+    <Folder Include="Apartments\" />
+    <Folder Include="Apartments\SearchApartments\" />
+    <Folder Include="Abstractions\Behaviours\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="Bookings\CancelBooking\" />
+  </ItemGroup>
+</Project>
