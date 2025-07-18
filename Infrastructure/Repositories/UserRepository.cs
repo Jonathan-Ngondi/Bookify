@@ -9,6 +9,18 @@ namespace Infrastructure.Repositories
 			: base(dbContext)
 		{
 		}
+
+        public override void Add(User user)
+        {
+            foreach (var role in user.Roles)
+			{
+				DbContext.Attach(role);
+            }
+
+			DbContext.Add(user);
+
+			var trackedEntities = DbContext.ChangeTracker.Entries().Count();
+        }
 	}
 }
 

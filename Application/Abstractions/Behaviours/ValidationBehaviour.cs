@@ -6,7 +6,7 @@ using MediatR;
 namespace Application.Abstractions.Behaviours;
 
 public class ValidationBehaviour<TRequest, TResponse>
-    : IPipelineBehaviour<TRequest, TResponse>
+    : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IBaseCommand
 { 
     private readonly IEnumerable<IValidator<TRequest>> _validators;

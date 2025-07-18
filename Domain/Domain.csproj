@@ -20,8 +20,6 @@
   <ItemGroup>
     <Folder Include="Apartments\" />
     <Folder Include="Abstractions\" />
-    <Folder Include="Users\" />
-    <Folder Include="Users\Events\" />
     <Folder Include="Bookings\" />
     <Folder Include="Shared\" />
     <Folder Include="Bookings\Events\" />
@@ -29,6 +27,6 @@
     <Folder Include="Reviews\Events\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="13.0.0" />
+    <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
   </ItemGroup>
 </Project>

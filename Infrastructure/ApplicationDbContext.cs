@@ -6,12 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure;
 
-public sealed class ApplicationDbContext : DbContext,IUnitOfWork
+public sealed class ApplicationDbContext : DbContext, IUnitOfWork
 {
-    public readonly IPublisher _publisher;
-	public ApplicationDbContext(DbContextOptions options)
+    private readonly IPublisher _publisher;
+	public ApplicationDbContext(DbContextOptions options, IPublisher publisher)
 		: base(options)
 	{
+        _publisher = publisher;
 	}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -24,9 +25,10 @@ public sealed class ApplicationDbContext : DbContext,IUnitOfWork
     {
         try
         {
+            var trackedEntries = ChangeTracker.Entries().Count();
             var result = await base.SaveChangesAsync(cancellationToken);
 
-            await PublishDomainEventsAsync();
+            var done = await PublishDomainEventsAsync();
 
             return result;
         }
@@ -34,9 +36,10 @@ public sealed class ApplicationDbContext : DbContext,IUnitOfWork
         {
             throw new ConcurrencyException("Concurrency exception occurred.", ex);
         }
+
     }
 
-    private async Task PublishDomainEventsAsync()
+    private async Task<string> PublishDomainEventsAsync()
     {
         var domainEvents = ChangeTracker
             .Entries<Entity>()
@@ -49,10 +52,11 @@ public sealed class ApplicationDbContext : DbContext,IUnitOfWork
             })
             .ToList();
 
-        foreach (var domiainEvent in domainEvents)
+        foreach (var domainEvent in domainEvents)
         {
-            await _publisher.Publish(domainEvents);
+            await _publisher.Publish(domainEvent);
         }
+        return "Done";
     }
 }
 

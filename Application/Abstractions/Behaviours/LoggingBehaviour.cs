@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 namespace Application.Abstractions.Behaviours;
 
 public class LoggingBehaviour<TRequest, TResponse>
-	: IPipelineBehaviour<TRequest, TResponse>
+	: IPipelineBehavior<TRequest, TResponse>
 	where TRequest :IBaseCommand
 {
 	private readonly ILogger<TRequest> _logger;

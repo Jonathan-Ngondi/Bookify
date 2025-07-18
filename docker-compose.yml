@@ -1,18 +1,28 @@
-version: '3.4'
+networks:
+  bookify-net:
 
 services:
-  bookify.api:
-    image: ${DOCKER_REGISTRY-}bookify
+  bookify-api:
+    image: ${DOCKER_REGISTRY-}bookifyapi
     container_name: Bookify.Api
     build:
       context: .
       dockerfile: Bookify.API/Dockerfile
     depends_on:
-      - bookify-db
+      bookify-db:
+        condition: service_healthy
+    networks:
+      - bookify-net
+    environment:
+      - ConnectionStrings__Database=Host=bookify-db;Port=5432;Database=bookify;Username=postgres;Password=postgres
 
   bookify-db:
     image: postgres:latest
     container_name: Bookify.Db
+    command:
+      - "postgres"
+      - "-c"
+      - "log_statement=all"
     environment:
       - POSTGRES_DB=bookify
       - POSTGRES_USER=postgres
@@ -20,6 +30,37 @@ services:
     volumes:
       - ./.containers/database:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - "5432:5432"
+    networks:
+      - bookify-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d bookify"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-
+  bookify-idp:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: Bookify.Identity
+    command: start-dev --import-realm
+    environment:
+      # --- Credentials for Keycloak Admin User ---
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      # --- Database Connection Settings ---
+      - KC_DB=postgres
+      - KC_DB_URL_HOST=bookify-db
+      - KC_DB_URL_DATABASE=bookify
+      - KC_DB_USERNAME=postgres
+      - KC_DB_PASSWORD=postgres
+    volumes:
+      - ./.containers/identity:/opt/keycloak/data
+      - ./.files/bookify-realm-export.json:/opt/keycloak/data/import/realm.json
+    ports:
+      - "18080:8080"
+    # --- Add Keycloak to the network and make it wait for the DB ---
+    networks:
+      - bookify-net
+    depends_on:
+      bookify-db:
+        condition: service_healthy

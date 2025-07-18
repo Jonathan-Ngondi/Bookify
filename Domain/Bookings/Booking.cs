@@ -31,7 +31,13 @@ public sealed class Booking : Entity
 		CreatedOnUtc = createdOnUtc;
 	}
 
-	public Guid ApartmentId { get; private set; }
+	private Booking()
+	{
+		// Required for EF Core
+	}
+    
+	// Properties
+    public Guid ApartmentId { get; private set; }
     public Guid UserId { get; private set; }
     public DateRange Duration { get; private set; }
 	public Money PriceForPeriod { get; private set; }

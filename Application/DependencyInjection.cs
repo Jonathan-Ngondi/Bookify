@@ -1,5 +1,4 @@
-﻿using System;
-using Application.Abstractions.Behaviours;
+﻿using Application.Abstractions.Behaviours;
 using Domain.Bookings;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +12,9 @@ public static class DependencyInjection
         services.AddMediatR(configuration =>
         {
             configuration.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
+            
             configuration.AddOpenBehavior(typeof(LoggingBehaviour<,>));
+            
             configuration.AddOpenBehavior(typeof(ValidationBehaviour<,>));
         });
 

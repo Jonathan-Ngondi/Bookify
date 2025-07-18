@@ -9,7 +9,12 @@ public abstract class Entity
 	{
 		Id = id;
 	}
-	public Guid Id { get; init; }
+
+	protected Entity()
+	{
+    }
+
+    public Guid Id { get; init; }
 
 	public IReadOnlyList<IDomainEvent> GetDomainEvents()
 	{

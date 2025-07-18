@@ -28,6 +28,11 @@ public sealed class Review : Entity
         CreatedOnUtc = createdOnUtc;
     }
 
+    private Review()
+    {
+        // Required for EF Core
+    }
+
     public Guid ApartmentId { get; private set; }
     public Guid BookingId { get; private set; }
     public Guid UserId { get; private set; }
